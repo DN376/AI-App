@@ -1,5 +1,7 @@
 import streamlit as st
 from io import StringIO
+from langchain.schema import Document
+from langchain.document_transformers import DoctranTextTranslator
 
 def main():
     st.set_page_config(page_title="Analyze / Translate Document",
@@ -20,9 +22,18 @@ def main():
                 #     st.text()
                 #     stringio = StringIO(doc.getvalue().decode("utf-8"))
                 #     st.write(stringio)
+    i = 1
     for doc in docs:
+        st.write("File " + str(i) + ": *" + doc.name + "*")
         stringio = StringIO(doc.getvalue().decode("utf-8"))
         string_data = stringio.read()
         st.write(string_data)
+        st.write("------\n")
+        i += 1
+    
+    # st.write('**What language would you like to translate these documents into?**')
+    # language = st.text_input('Choose a language')
+    # if language is not None:
+    #     if st.button("Translate!"):
 
 main()
