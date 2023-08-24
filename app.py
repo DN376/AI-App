@@ -1,7 +1,7 @@
 import streamlit as st
 from io import StringIO
 from langchain.schema import Document
-from langchain.document_transformers import DoctranTextTranslator
+from googletrans import Translator, constants
 
 def main():
     st.set_page_config(page_title="Analyze / Translate Document",
@@ -12,16 +12,7 @@ def main():
     with st.sidebar:
         st.subheader("Your documents")
         docs = st.file_uploader(
-            "Upload your documents here and click on 'Process'", accept_multiple_files=True)
-        if st.button("Process"):
-            with st.spinner("Processing"):
-                print("done!")
-                # st.text(docs)
-                # To convert to a string based IO:
-                # for doc in docs:
-                #     st.text()
-                #     stringio = StringIO(doc.getvalue().decode("utf-8"))
-                #     st.write(stringio)
+            "Upload your documents here!", accept_multiple_files=True)
     i = 1
     for doc in docs:
         st.write("File " + str(i) + ": *" + doc.name + "*")
@@ -31,9 +22,32 @@ def main():
         st.write("------\n")
         i += 1
     
-    # st.write('**What language would you like to translate these documents into?**')
-    # language = st.text_input('Choose a language')
-    # if language is not None:
-    #     if st.button("Translate!"):
+    st.write('**What language would you like to translate these documents into?**')
+    language = st.text_input('Choose a language').lower()
+    if not validLang(language):
+        st.write("Invalid language!")
+    else:
+        if docs is not None:
+            if st.button("Translate into "+ language +"!"):
+                i = 1
+                # init the Google API translator
+                translator = Translator()
+                for doc in docs:
+                    st.write("Translated File " + str(i) + ": *" + doc.name + "*")
+                    text = doc.getvalue().decode("utf-8")
+                    translation = translator.translate(text, dest=language)
+                    st.write(translation.text)
+                    st.write("------\n")
+                    i += 1
+
+def validLang(lang):
+    if lang is None:
+        return False
+    langNames = constants.LANGUAGES.values()
+    for langName in langNames:
+        if lang == langName:
+            return True
+    return False
+
 
 main()
