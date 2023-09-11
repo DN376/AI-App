@@ -1,10 +1,7 @@
 import streamlit as st
-from io import StringIO
-from dotenv import load_dotenv
-from langchain.schema import Document
 from langchain.text_splitter import CharacterTextSplitter
 from googletrans import Translator, constants
-from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
+from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 
 def get_text_chunks(text):
