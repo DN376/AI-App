@@ -1,4 +1,4 @@
-name: Auto Build Data Collect Docker Image
+name: Auto - Build Docker Image
 
 on:
   push:

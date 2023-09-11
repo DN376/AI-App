@@ -1,4 +1,4 @@
-name: Manual Build Data Collect Docker Image
+name: Manual - Build Docker Image
 
 on:
   workflow_dispatch
